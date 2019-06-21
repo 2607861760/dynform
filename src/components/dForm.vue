@@ -33,7 +33,8 @@ export default {
                 name: "liu",
                  age: "10", 
                  sex: 1,
-                 marrige:0
+                 marrige:0,
+                 like:[1,2]
             },
             config:{
                 cols:3,
@@ -158,42 +159,69 @@ export default {
         checks
     },
     methods:{
-        updateForm(fieldName,val){
-            this.formData[fieldName]=val;
+        updateForm(name,val){
+            this.formData[name]=val;
+            // if(Array.isArray(val)){
+            //     this.pointerobj[fieldName].map(item=>{
+            //         this.config.fields.map(items=>{
+            //             if(item.id==items.id){
+            //                 if(val.some((now)=>{
+            //                     return now==item.value
+            //                 })){
+            //                     items.show=true;
+            //                 }else{
+            //                     items.show=false;
+            //                 }
+            //             }
+            //         })
+            //     }) 
+            // }else{
+            //     this.pointerobj[fieldName].map(item=>{
+            //         this.config.fields.map(items=>{
+            //             if(item.id==items.id){
+            //                 if(item.value==val){
+            //                     items.show=true;
+            //                 }else{
+            //                     items.show=false;
+            //                 }
+            //             }
+            //         })
+            //     }) 
+            // }
+            this.senceShow(name,val)
+        },
+        judge(val,itemval){
             if(Array.isArray(val)){
-                this.pointerobj[fieldName].map(item=>{
-                    this.config.fields.map(items=>{
-                        if(item.id==items.id){
-                            if(val.some((now)=>{
-                                return now==item.value
-                            })){
-                                items.show=true;
-                            }else{
-                                items.show=false;
-                            }
-                        }
-                    })
-                }) 
+                return val.some((ele)=>ele==itemval)
             }else{
-                this.pointerobj[fieldName].map(item=>{
-                    this.config.fields.map(items=>{
-                        if(item.id==items.id){
-                            if(item.value==val){
-                                items.show=true;
-                            }else{
-                                items.show=false;
-                            }
-                        }
-                    })
-                }) 
+                if(itemval==val){
+                    return true
+                }
+                return false
             }
+        },
+        senceShow(name,val){
+            this.pointerobj[name].map(item=>{
+                this.config.fields.map(items=>{
+                    if(item.id==items.id){
+                        let flag=this.judge(val,item.value);
+                        items.show=flag;
+                    }
+                })
+            }) 
             this.$forceUpdate()
         },
         submit(){
             console.log(this.formData)
         }
     },
-    created(){
+    mounted(){
+        for (const key in this.formData) {
+            if (this.formData.hasOwnProperty(key)) {
+                const element = this.formData[key];
+                this.senceShow(key,element)
+            }
+        }
     },
 }
 </script>
