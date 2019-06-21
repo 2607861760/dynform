@@ -1,5 +1,5 @@
 <template>
-    <el-form-item :label='label' :name='name' v-if='show'>
+    <el-form-item :label='label' :name='name'>
         <el-checkbox :indeterminate="cong.isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
         <!-- <div style="margin: 15px 0;"></div> -->
         <el-checkbox-group v-model="checkedList" @change="handleCheckedChange">
@@ -16,7 +16,6 @@ export default {
         return{
             checkAll: false,
             checkedList:[],
-            show:false
         }
     },
     methods:{
@@ -35,19 +34,6 @@ export default {
         checkedList(val){
             this.onInput(val)
         },
-        // showUpdate(val){
-            // console.log(val)
-        // }
-        showUpdate:{
-            handler(newValue, oldValue) {
-                newValue.map(item=>{
-                    if(item.name=this.name){
-                        this.show=item.show
-                    }
-                })
-　　　　},
-　　　　deep: true
-        }
     },
     created(){
         if(this.value){

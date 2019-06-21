@@ -1,6 +1,6 @@
 <template>
     <!-- <div> -->
-        <el-form-item :label='label' :name='name' v-if='cong.show'>
+        <el-form-item :label='label' :name='name'>
             <el-input 
                 :type="cong.type || 'text'"
                 v-model="nowval" 

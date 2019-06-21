@@ -1,6 +1,6 @@
 <template>
     <!-- <div> -->
-        <el-form-item :label='label' :name='name' v-if='cong.show'>
+        <el-form-item :label='label' :name='name'>
              <el-radio-group v-model="nowval" @input="onInput">
                 <el-radio v-for='option in cong.options' 
                 :key="option.id"

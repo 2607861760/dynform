@@ -1,6 +1,6 @@
 <template>
     <!-- <div> -->
-        <el-form-item :label='label' :name='name' v-if='cong.show'>
+        <el-form-item :label='label' :name='name'>
             <el-select v-model="nowval" @input="onInput">
                 <el-option v-for='option in cong.options' 
                 :key='option.id' 

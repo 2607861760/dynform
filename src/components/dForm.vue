@@ -3,6 +3,7 @@
         <el-form :model='formData' :inline="true" label-width="150px" ref="form" label-position="left">
             <el-col :span="24/config.cols" v-for='(field,index) in config.fields' :key='index' >
                 <component
+                    v-if='field.show'
                     :key='index'
                     :is='field.fieldName'
                     :label='field.label'
@@ -11,7 +12,6 @@
                     :value='formData[field.name]'
                     :name='field.name'
                     @input='updateForm'
-                    :showUpdate='pointerlits'
                 ></component>
             </el-col>
             <el-col>
@@ -44,10 +44,10 @@ export default {
                         label:'姓名',
                         name:'name',
                         id:1,
+                        show:true,
                         cong:{
                             placeholder:'请输入姓名',
                             unit:'',
-                            show:true,
                         }
                         
                     },
@@ -56,11 +56,11 @@ export default {
                         label:'年龄',
                         name:'age',
                         id:2,
+                        show:true,
                         cong:{
                             placeholder:'请输入年龄',
                             unit:'岁',
                             type:'Number',
-                            show:true,
                         }
                     },
                     {
@@ -68,10 +68,10 @@ export default {
                         label:'性别',
                         name:'sex',
                         id:3,
+                        show:true,
                         cong:{
                             placeholder:'请选择',
                             unit:'',
-                            show:true,
                             options:[
                                 {
                                     id:0,
@@ -89,11 +89,17 @@ export default {
                         label:'是否结婚',
                         name:'marrige',
                         id:4,
-                        pointer:[5],
+                        show:false,
+                        pointer:[
+                            {
+                                id:5,
+                                name:'like',
+                                value:1
+                            }
+                        ],
                         cong:{
                             placeholder:'',
                             unit:'',
-                            show:true,
                             options:[
                                 {
                                     id:0,
@@ -111,11 +117,11 @@ export default {
                         label:'爱好',
                         name:'like',
                         id:5,
+                        show:true,
                         cong:{
                             placeholder:'',
                             unit:'',
                             isIndeterminate:true,
-                            show:false,
                             options:[
                                 {
                                     id:1,
@@ -134,7 +140,15 @@ export default {
                     }
                 ]
             },
-            pointerlits:[]
+            pointerobj:{
+                'like':[
+                    {
+                        id:4,
+                        name:'marrige',
+                        value:1
+                    }
+                ]
+            }
         }
     },
     components:{
@@ -144,68 +158,42 @@ export default {
         checks
     },
     methods:{
-        // marrieChange (field){
-        //     console.log(field)
-        // },
         updateForm(fieldName,val){
             this.formData[fieldName]=val;
-            // console.log(this.pointerlits)
-            this.pointerlits.map(item=>{
-                if(item.name==fieldName){
-                    item.show=!item.show
-                }
-            })
-            // console.log(this.pointerlits)
-            // this.$nextTick(()=>{
-            //     this.pointerlits.map(item=>{
-            //         if(fieldName==item){
-            //             let pointer=[];
-            //             this.config.fields.map(items=>{
-            //                 if(items.name==item){
-            //                     pointer=items.pointer
-            //                 }
-            //             })
-            //             pointer.map(point=>{
-            //                 this.config.fields.map(items=>{
-            //                     console.log(point)
-            //                     if(items.id==point){
-            //                         if(items.cong['show']==true){
-            //                             items.cong['show']=false
-            //                         }else{
-            //                             items.cong['show']=true
-            //                         }
-            //                     }
-            //                 })
-            //             })
-                        
-            //         }
-
-            //     })
-            //     console.log(this.config.fields)
-            // })
-            
+            if(Array.isArray(val)){
+                this.pointerobj[fieldName].map(item=>{
+                    this.config.fields.map(items=>{
+                        if(item.id==items.id){
+                            if(val.some((now)=>{
+                                return now==item.value
+                            })){
+                                items.show=true;
+                            }else{
+                                items.show=false;
+                            }
+                        }
+                    })
+                }) 
+            }else{
+                this.pointerobj[fieldName].map(item=>{
+                    this.config.fields.map(items=>{
+                        if(item.id==items.id){
+                            if(item.value==val){
+                                items.show=true;
+                            }else{
+                                items.show=false;
+                            }
+                        }
+                    })
+                }) 
+            }
+            this.$forceUpdate()
         },
         submit(){
             console.log(this.formData)
         }
     },
     created(){
-        // if(this.formData.marrige==0){
-        //     this.config.fields.map(item=>{
-        //         if(item.name=='like'){
-        //             item.cong.show=true
-        //         }
-        //     })
-        // }
-        this.config.fields.map(item=>{
-            if(item.pointer && item.pointer.length>0){
-                let obj={
-                    name:item.name,
-                    show:false
-                }
-                this.pointerlits.push(obj)
-            }
-        })
     },
 }
 </script>
