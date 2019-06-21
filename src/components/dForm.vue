@@ -31,10 +31,10 @@ export default {
         return{
             formData:{
                 name: "liu",
-                 age: "10", 
-                 sex: 1,
-                 marrige:0,
-                 like:[1,2]
+                age: "10", 
+                sex: 1,
+                marrige:0,
+                like:[1,2]
             },
             config:{
                 cols:3,
@@ -189,6 +189,7 @@ export default {
             //     }) 
             // }
             this.senceShow(name,val)
+            this.$forceUpdate()
         },
         judge(val,itemval){
             if(Array.isArray(val)){
@@ -201,15 +202,22 @@ export default {
             }
         },
         senceShow(name,val){
-            this.pointerobj[name].map(item=>{
+            if(this.pointerobj.hasOwnProperty(name) ){
+                this.pointerobj[name].map(item=>{
                 this.config.fields.map(items=>{
                     if(item.id==items.id){
                         let flag=this.judge(val,item.value);
                         items.show=flag;
+                        if(items.show==false){
+                            delete this.formData[item.name]
+                        }
+                        console.log(this.formData)
                     }
                 })
             }) 
-            this.$forceUpdate()
+            }
+            
+            
         },
         submit(){
             console.log(this.formData)
