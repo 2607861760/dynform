@@ -1,6 +1,6 @@
 <template>
     <el-form-item :label='label' :name='name'>
-        <el-checkbox :indeterminate="cong.isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+        <el-checkbox v-if='cong.isAll' :indeterminate="cong.isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
         <!-- <div style="margin: 15px 0;"></div> -->
         <el-checkbox-group v-model="checkedList" @change="handleCheckedChange">
             <el-checkbox v-for="option in cong.options" :label="option.id" :key="option.id">{{option.label}}</el-checkbox>

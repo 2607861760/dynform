@@ -26,6 +26,7 @@ import textInput from './baseComponets/textInput'
 import selectInput from './baseComponets/selectInput'
 import radios from './baseComponets/radios'
 import checks from './baseComponets/checks'
+import numberInput from './baseComponets/numberInput'
 export default {
     data(){
         return{
@@ -61,7 +62,7 @@ export default {
                         cong:{
                             placeholder:'请输入年龄',
                             unit:'岁',
-                            type:'Number',
+                            type:'text',
                         }
                     },
                     {
@@ -90,14 +91,7 @@ export default {
                         label:'是否结婚',
                         name:'marrige',
                         id:4,
-                        show:false,
-                        pointer:[
-                            {
-                                id:5,
-                                name:'like',
-                                value:1
-                            }
-                        ],
+                        show:true,
                         cong:{
                             placeholder:'',
                             unit:'',
@@ -123,6 +117,7 @@ export default {
                             placeholder:'',
                             unit:'',
                             isIndeterminate:true,
+                            isAll:false,
                             options:[
                                 {
                                     id:1,
@@ -138,14 +133,66 @@ export default {
                                 }
                             ]
                         }
-                    }
+                    },
+                    {
+                        fieldName:'radios',
+                        label:'是否最后一名',
+                        name:'last',
+                        id:6,
+                        show:true,
+                        cong:{
+                            placeholder:'',
+                            unit:'',
+                            options:[
+                                {
+                                    id:0,
+                                    label:'是'
+                                },
+                                {
+                                    id:1,
+                                    label:'否'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        fieldName:'textInput',
+                        label:'其他',
+                        name:'other',
+                        id:7,
+                        show:true,
+                        cong:{
+                            placeholder:'请输入年龄',
+                            unit:'岁',
+                            type:'text',
+                        }
+                    },
+                    {
+                        fieldName:'numberInput',
+                        label:'体重',
+                        name:'weight',
+                        id:7,
+                        show:true,
+                        cong:{
+                            placeholder:'请输入体重',
+                            unit:'kg',
+                            max:150,
+                            min:0,
+                            precision:2
+                        }
+                    },
                 ]
             },
-            pointerobj:{
+            pointerobj:{   //关联关系
                 'like':[
                     {
-                        id:4,
-                        name:'marrige',
+                        id:6,
+                        name:'last',
+                        value:1
+                    },
+                    {
+                        id:7,
+                        name:'other',
                         value:1
                     }
                 ]
@@ -156,7 +203,8 @@ export default {
         textInput,
         selectInput,
         radios,
-        checks
+        checks,
+        numberInput
     },
     methods:{
         updateForm(name,val){
